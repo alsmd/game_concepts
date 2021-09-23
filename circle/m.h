@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 08:25:49 by user42            #+#    #+#             */
-/*   Updated: 2021/09/22 18:07:24 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/23 11:19:04 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 #include "X11/X.h"
 #include <math.h>
 #include <stdio.h>
-#define WIDTH 300
-#define HEIGHT 300
+#define WIDTH 255
+#define HEIGHT 255
 
 
 typedef struct s_vars

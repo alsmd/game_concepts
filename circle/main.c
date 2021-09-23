@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 08:29:17 by user42            #+#    #+#             */
-/*   Updated: 2021/09/22 18:37:04 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/23 13:24:39 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	update(t_vars *vars)
 	int		x;
 	int		y;
 	float		ang = 0;
+	int			color;
 	
 	mlx_clear_window(vars->mlx, vars->win);
 	mlx_mouse_get_pos(vars->mlx, vars->win, &x, &y);
@@ -34,18 +35,23 @@ int	update(t_vars *vars)
 	mouse.mag(&dest_AB);
 	if (dest_AB.magnitude < radius)
 	{
+		color = 0xff0000;
 		mlx_pixel_put(vars->mlx, vars->win, (int) point.x, (int) point.y, 0xff0000);
 	}
 	else
+	{
+		color = 0xffff;
 		mlx_pixel_put(vars->mlx, vars->win, (int) point.x, (int) point.y, 0X0000ff);
+	}
 	while (ang < 360)
 	{
 		circle_point.x = radius * cosf(ang);
 		circle_point.y = radius * sinf(ang);
 		circle_point.sum(&circle_point, &mouse);
-		mlx_pixel_put(vars->mlx, vars->win, (int) circle_point.x, (int) circle_point.y, 0xffff);
+		mlx_pixel_put(vars->mlx, vars->win, (int) circle_point.x, (int) circle_point.y, color);
 		ang++;
 	}
+	return (1);
 }
 
 int	key(int keycode, t_vars *vars)
@@ -54,6 +60,7 @@ int	key(int keycode, t_vars *vars)
 		radius += 1;
 	if (keycode == 65293)
 		radius -= 1;
+	return (1);
 }
 
 int main(void)
