@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 08:29:17 by user42            #+#    #+#             */
-/*   Updated: 2021/09/22 15:31:32 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/24 09:21:11 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	on_screen(t_pro *program)
 
 	x = program->position->x;
 	y = program->position->y;
-	program->vel->sum(program->vel, program->acel);
+	vec_sum(program->vel, program->acel);
 	if ((x + (program->img.w / 2) > WIDTH) || (x < (0 - program->img.w / 2)))
 		program->vel->x *= -1;
 	if ((y + ( program->img.h / 2) > HEIGHT) || (y <  (0 - ( program->img.h / 2))))
@@ -34,14 +34,14 @@ void	on_screen(t_pro *program)
 	count++;
 	if (count > 50)
 	{
-		program->acel->scale(program->acel, -1);
+		vec_scale(program->acel, -1);
 		count = 0;
 	}
 }
 
 int	update(t_pro *program)
 {
-	program->position->sum(program->position, program->vel);
+	vec_sum(program->position, program->vel);
 	img_to_window(&program->vars, &program->img, program->position);
 	on_screen(program);
 	return (1);

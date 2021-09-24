@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 08:30:16 by user42            #+#    #+#             */
-/*   Updated: 2021/09/22 14:09:16 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/23 16:00:05 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,17 @@ int	take_step(float dx, float dy)
 	return (dx > dy ? dx : dy);
 }
 
-void drawline(int x0, int y0, int x1, int y1, t_vars *vars)
+void drawline(t_vec vec1, t_vec vec2, int color, t_vars *vars)
 {
 	//t_data	img;
     double	dx, dy, x, y;
     int		steps;
 
-    dx=x1-x0;
-    dy=y1-y0;
+    dx=vec2.x-vec1.x;
+    dy=vec2.y-vec1.y;
     
-	x = x0;
-	y = y0;
+	x = vec1.x;
+	y = vec1.y;
 	//create_img(&img, WIDTH, HEIGHT, vars);
 	steps = take_step(dx, dy);
 	dx = (double) (dx / steps);
@@ -48,7 +48,7 @@ void drawline(int x0, int y0, int x1, int y1, t_vars *vars)
 		if ((x > 0 && y > 0) && (x <= WIDTH && y <= HEIGHT))
 		{
 			//my_mlx_pixel_put(&img, x, y, 0xfffff);
-			mlx_pixel_put(vars->mlx, vars->win, x, y, 0xfffff);
+			mlx_pixel_put(vars->mlx, vars->win, x, y, color);
 		}
 		x += dx;
 		y += dy;

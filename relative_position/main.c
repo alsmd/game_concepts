@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 08:29:17 by user42            #+#    #+#             */
-/*   Updated: 2021/09/23 19:29:25 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/24 09:38:04 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,6 @@ t_vars	vars;
 void	put_pixel(t_vec point, int color)
 {
 	mlx_pixel_put(vars.mlx, vars.win, point.x, point.y, color);
-}
-
-void	rotate(t_vec *vec, float	angle)
-{
-	float	rad;
-	float	x;
-	float	y;
-
-	x = vec->x;
-	y = vec->y;
-	rad = angle * M_PI / 100;
-	
-	vec->x = x * cos(rad) - y * sin(rad);
-	vec->y = y * cos(rad) + x * sin(rad);
 }
 
 typedef struct s_axis
@@ -63,12 +49,12 @@ void	draw_relative_point(t_obj obj, t_vec point)
 	//top é a direção no qual o y do axis do objeto esta apontando
 	axis = obj.axis;
 	//eu pego a verdadeira cordenada considerando a direção que os axis estão apontando
-	scale(&axis.right, point.x);
- 	scale(&axis.up, point.y);
-	sum(&axis.right, &axis.up);
+	vec_scale(&axis.right, point.x);
+ 	vec_scale(&axis.up, point.y);
+	vec_sum(&axis.right, &axis.up);
 	point = axis.right;
 	//faço isso ser relativo a origem do mundo novamente
-	sum(&point, &obj.position);
+	vec_sum(&point, &obj.position);
 	//draw
 	put_pixel(point, blue);
 }
@@ -89,23 +75,23 @@ int	update(t_vars *vars)
 
 	//initial position of our object
 	vec_init(&dot.position, 0, 0);
-	sum(&dot.position, &center);
+	vec_sum(&dot.position, &center);
 	//our dotte that will be relative our object
 	vec_init(&point, 20, 20);
 
 	//set initial axis
 	set_axis(&dot);
 	//rotate axis
-	rotate(&dot.axis.up, angle);
-	rotate(&dot.axis.right, angle);
+	vec_rotate(&dot.axis.up, angle);
+	vec_rotate(&dot.axis.right, angle);
 	//cpy axis to not modify the real one
 	axis = dot.axis;
 
 	//scale axis and put in the right place to vizualization
-	scale(&axis.up, 50);
-	scale(&axis.right, 50);
-	sum(&axis.up, &dot.position);
-	sum(&axis.right, &dot.position);
+	vec_scale(&axis.up, 50);
+	vec_scale(&axis.right, 50);
+	vec_sum(&axis.up, &dot.position);
+	vec_sum(&axis.right, &dot.position);
 	drawline(axis.up, dot.position, green, vars);
 	drawline(axis.right, dot.position, red, vars);
 	
