@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 08:25:49 by user42            #+#    #+#             */
-/*   Updated: 2021/09/24 11:24:23 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/25 13:12:47 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,5 @@ int		*to_array(int x, int y, int w, int h);
 void	copy_img_to(t_data *dest, t_data *src, int info[4]);
 void	copy_img_from(t_data *dest, t_data *src, int info[4]);
 int		my_mlx_get_pixel(t_data *data, int x, int y);
-t_vec	*new_vec(float x, float y);
 
 #endif

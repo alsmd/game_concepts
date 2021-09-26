@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 08:29:17 by user42            #+#    #+#             */
-/*   Updated: 2021/09/24 19:14:24 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/25 15:57:13 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,47 +14,99 @@
 #define red 0xff0000
 #define green 0x00ff00
 #define blue 0x0000ff
+typedef	struct s_square
+{
+	t_vec	point[10];
+}	t_square;
 
 t_vars	vars;
-float	angle;
-
+float	anglex = 0;
+float	angley = 0;
+float	anglez = 0;
+t_obj	global;
+t_square	square = {
+	.point[0] = {
+		.x = -10,
+		.y = -10,
+		.z = -0
+	},
+	.point[1] = {
+		.x = -100,
+		.y = -10,
+		.z = -0
+	},
+	.point[2] = {
+		.x = -100,
+		.y = -100,
+		.z = -0
+	},
+	.point[3] = {
+		.x = -10,
+		.y = -100,
+		.z = -0
+	},
+	//atraz
+	.point[4] = {
+		.x = -10,
+		.y = -10,
+		.z = -50
+	},
+	.point[5] = {
+		.x = -100,
+		.y = -10,
+		.z = -50
+	},
+	.point[6] = {
+		.x = -100,
+		.y = -100,
+		.z = -50
+	},
+	.point[7] = {
+		.x = -10,
+		.y = -100,
+		.z = -50
+	}
+};
 void	put_pixel(t_vec point, int color)
 {
+	t_axis	axis;
+
+	axis = global.axis;
+	vec_scale(&axis.center, point.z);
+	vec_sum(&point, &axis.center);
+	vec_sum(&point, &global.position);
 	mlx_pixel_put(vars.mlx, vars.win, point.x, point.y, color);
 }
 
 int	update(t_vars *vars)
 {
 	t_obj	global;
-	t_obj	another;
-	t_obj	another_one;
-	t_obj	dot;
 	t_obj	point;
-	t_axis	axis;
-	t_vec	hold;
-	
-	//clean screen
+
 	mlx_clear_window(vars->mlx, vars->win);
-	//init global point and my obj that will be relative to this point
-	init_obj(&global, 0, WIDTH / 2, HEIGHT / 2);
-	init_obj(&dot, &global, 5, 5);
-	//our dotte that will be relative to our object
-	init_obj(&point, &dot, 20, 20);
-	init_obj(&another, &point, 15, 5);
-	init_obj(&another_one, &global, 10, 10);
-	//rotate axis
-	vec_rotate(&dot.axis.up, angle);
-	vec_rotate(&dot.axis.right, angle);
-	vec_rotate(&point.axis.up, 15);
-	vec_rotate(&point.axis.right, 15);
-	//scale axis and put in the right place to vizualization
-	print_axis(dot, 100, drawline, vars);
-	print_axis(point, 50, drawline, vars);
-	print_axis(another, 30, drawline, vars);
-	//translate a relative point to world point
-	change_parent(&another_one, &another);
-	hold = get_global_scope(another_one);
-	put_pixel(hold, blue);
+	init_obj(&global, 0, WIDTH / 2, HEIGHT / 2, 0);
+	init_obj(&point, &global, 10, 10, 100);
+	//x
+	vec_rotatex(&global.axis.center, anglex);
+	vec_rotatex(&global.axis.up, anglex);
+	vec_rotatex(&global.axis.right, anglex);
+
+	//y
+	vec_rotatey(&global.axis.center, angley);
+	vec_rotatey(&global.axis.up, angley);
+	vec_rotatey(&global.axis.right, angley);
+	//z
+	vec_rotatez(&global.axis.center, anglez);
+	vec_rotatez(&global.axis.up, anglez);
+	vec_rotatez(&global.axis.right, anglez);
+	
+	printf("x %f\n", global.axis.right.x);
+	printf("y %f\n", global.axis.right.y);
+	printf("z %f\n", global.axis.right.z);
+	print_axis(global, 50, drawline, vars);
+
+	point.position = get_global_scope(point);
+	put_pixel(point.position, 0xffff);
 	return (1);
 }
 
@@ -67,9 +119,11 @@ int	key(int keycode, void *v)
 	const float	speed = 2;
 
 	if (keycode == left)
-		angle -= speed;
+		anglez -= speed;
+	if (keycode == up)
+		angley += speed;
 	if (keycode == right)
-		angle += speed;
+		anglex += speed;
 	//printf("%d\n", keycode);
 	//fflush(stdout);
 }
