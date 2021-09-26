@@ -6,12 +6,13 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 08:25:49 by user42            #+#    #+#             */
-/*   Updated: 2021/09/25 13:11:57 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/26 08:50:26 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GAME_KIT_H
 #define GAME_KIT_H
+#include <stdio.h>
 #include <stdlib.h>
 #include "../vec_lib/vec.h"
 
