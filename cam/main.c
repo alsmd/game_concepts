@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 08:29:17 by user42            #+#    #+#             */
-/*   Updated: 2021/09/26 12:35:59 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/26 18:47:26 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,6 @@ void	put_pixel(t_vec point, int color)
 	t_axis	axis;
 
 	mlx_pixel_put(vars.mlx, vars.win, point.x, point.y, color);
-}
-
-void	change_value(t_vec *vec, float x, float y, float z)
-{
-	vec->x = x;
-	vec->y = y;
-	vec->z = z;
 }
 
 void	rotate_axis(t_axis *axis)

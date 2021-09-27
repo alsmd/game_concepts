@@ -6,11 +6,11 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 08:30:16 by user42            #+#    #+#             */
-/*   Updated: 2021/09/26 10:38:28 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/26 17:55:16 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "m.h"
+#include "../includes/engine.h"
 
 void	create_img(t_data *img, int w, int h, t_vars *vars)
 {
@@ -58,4 +58,9 @@ void	load_img(t_data *img, char *path, t_vars *vars)
 	img->img = mlx_xpm_file_to_image(vars->mlx, path, &img->w, &img->h);
 	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel,
 			&img->line_length, &img->endin);
+}
+
+void	put_pixel(t_vec point, int color, t_engine *eng)
+{
+	my_mlx_pixel_put(&eng->screen, point.x, point.y, color);
 }

@@ -6,11 +6,13 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 08:02:52 by user42            #+#    #+#             */
-/*   Updated: 2021/09/26 09:23:32 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/26 17:53:56 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game_kit.h"
+
+
 
 t_vec	get_parent_scope(t_obj obj)
 {
@@ -41,7 +43,7 @@ t_vec	get_global_scope(t_obj obj)
 	return (new_pos);
 }
 
-void	print_axis(t_obj obj, int scale, void (*drawline)(t_vec, t_vec, int, void *), void *aux)
+void	print_axis(t_obj obj, int scale, t_engine *eng)
 {
 	t_axis	axis;
 	t_vec	global_position;
@@ -50,13 +52,16 @@ void	print_axis(t_obj obj, int scale, void (*drawline)(t_vec, t_vec, int, void *
 	vec_scale(&axis.up, scale);
 	vec_scale(&axis.right, scale);
 	vec_scale(&axis.center, scale);
+	vec_scale(&axis.up, axis.scale);
+	vec_scale(&axis.right, axis.scale);
+	vec_scale(&axis.center, axis.scale);
 	global_position = get_global_scope(obj);
 	vec_sum(&axis.up, &global_position);
 	vec_sum(&axis.right, &global_position);
 	vec_sum(&axis.center, &global_position);
-	drawline(axis.up, global_position, 0x00ff00, aux);
-	drawline(axis.right, global_position, 0xff0000, aux);
-	drawline(axis.center, global_position, 0x0000ff, aux);
+	drawline(axis.up, global_position, 0x00ff00, &eng->vars, &eng->screen);
+	drawline(axis.right, global_position, 0xff0000, &eng->vars, &eng->screen);
+	drawline(axis.center, global_position, 0x0000ff, &eng->vars, &eng->screen);
 }
 
 static void	set_axis(t_obj *obj)
@@ -85,7 +90,7 @@ t_vec	vec_distance(t_vec	from, t_vec to)
 	dis.y = to.y - from.y;
 	return (dis);
 }
-#include <stdio.h>
+
 void	change_parent(t_obj *obj, t_obj *parent)
 {
 	t_obj	p;
@@ -97,4 +102,40 @@ void	change_parent(t_obj *obj, t_obj *parent)
 	parent_to_obj = vec_distance(p.position, obj->position);
 	obj->position = parent_to_obj;
 	obj->parent = parent;
+}
+
+t_obj	*new_obj(t_obj *parent, float x, float y, float z)
+{
+	t_obj	*obj;
+
+	obj = (t_obj *) calloc(1, sizeof(t_obj));
+	if (parent == 0)
+		obj->is_global = 1;
+	else
+		obj->is_global = 0;
+	obj->parent = parent;
+	vec_init(&obj->position, x, y, z);
+	set_axis(obj);
+	return (obj);
+}
+
+void	rotatex_axis(t_axis *axis, float angle)
+{
+	vec_rotatex(&axis->center, angle);
+	vec_rotatex(&axis->up, angle);
+	vec_rotatex(&axis->right, angle);
+}
+
+void	rotatey_axis(t_axis *axis, float angle)
+{
+	vec_rotatey(&axis->center, angle);
+	vec_rotatey(&axis->up, angle);
+	vec_rotatey(&axis->right, angle);
+}
+
+void	rotatez_axis(t_axis *axis, float angle)
+{
+	vec_rotatez(&axis->center, angle);
+	vec_rotatez(&axis->up, angle);
+	vec_rotatez(&axis->right, angle);
 }

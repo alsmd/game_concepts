@@ -1,4 +1,6 @@
-SRCS =	main.c aux.c pixel_manipulation.c
+SRCS =	./srcs/main.c ./srcs/aux.c ./srcs/pixel_manipulation.c \
+		./srcs/actions/events.c ./srcs/actions/obj.c ./srcs/actions/vertices.c \
+		./srcs/config/init.c
 
 OBJS = $(SRCS:.c=.o)
 

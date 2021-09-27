@@ -6,11 +6,11 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/20 16:15:47 by flavio            #+#    #+#             */
-/*   Updated: 2021/09/26 10:36:46 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/26 17:44:51 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "m.h"
+#include "../includes/engine.h"
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
@@ -112,7 +112,9 @@ void	clean_img(t_data *dest, int color, int width, int height)
 	{
 		while (y < height)
 		{
-			my_mlx_pixel_put(dest, x, y, color);
+			pixel = my_mlx_get_pixel(dest, x, y);
+			if (pixel != 0xfa0f00)
+				my_mlx_pixel_put(dest, x, y, color);
 			y++;
 		}
 		y = 0;
